@@ -16,8 +16,8 @@ app.listen(port, async () => {
 });
 
 // cron job at exactly midnight (00:00)
-cron.schedule('0 0 * * *', async () => {
-    logger.d('Running a task midnight');
+cron.schedule('10 0 * * *', async () => {
+    logger.d('Running a task at 00:10 (10 minutes after midnight)');
     await getDutyPharmacyByCity(process.env.CITY_NAME);
 });
 
