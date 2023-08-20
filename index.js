@@ -6,6 +6,8 @@ const logger = require('./utils/logger');
 const { setupDataDirectory, getDutyPharmacyByCity, } = require('./app/functions');
 const { handleOnMessage, handleOnReady, handleOnQr, handleOnAuthenticated, handleOnAuthfailure, } = require('./app/whatsapp');
 const str = require('./utils/str');
+const TelegramBot = require('node-telegram-bot-api');
+const { handleOnMessageTelegram } = require('./app/telegram');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,16 +25,23 @@ cron.schedule('10 0 * * *', async () => {
 });
 
 // Whatsapp Client
-const client = new Client({
+const whatsAppClient = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: { headless: true }
 });
 
-client.initialize();
-client.on(str.ready, handleOnReady);
-client.on(str.qr, handleOnQr);
-client.on(str.authenticated, handleOnAuthenticated);
-client.on(str.auth_failure, handleOnAuthfailure);
-client.on(str.message, async msg => {
-    await handleOnMessage(client, msg);
+whatsAppClient.initialize();
+whatsAppClient.on(str.ready, handleOnReady);
+whatsAppClient.on(str.qr, handleOnQr);
+whatsAppClient.on(str.authenticated, handleOnAuthenticated);
+whatsAppClient.on(str.auth_failure, handleOnAuthfailure);
+whatsAppClient.on(str.message, async msg => {
+    await handleOnMessage(whatsAppClient, msg);
+});
+
+//Telegram Bot
+const telegramClient = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: true});
+
+telegramClient.on(str.location, async (msg) => {
+    await handleOnMessageTelegram(telegramClient, msg);
 });

@@ -4,4 +4,5 @@ module.exports = {
     authenticated: 'authenticated',
     auth_failure: 'auth_failure',
     message: 'message',
+    location: 'location',
 }

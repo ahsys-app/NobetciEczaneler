@@ -19,8 +19,6 @@ async function sleep(ms) {
 async function getCityRegionByCordinates(latitude, longitude) {
     try {
         const apiKey = process.env.GOOGLE_MAP_KEY;
-        console.log('GOOGLE_MAP_KEY API key:', apiKey);
-        
         const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&language=tr&key=${apiKey}`;
         const response = await axios.get(apiUrl);
         const result = response.data.results[0];
@@ -31,19 +29,19 @@ async function getCityRegionByCordinates(latitude, longitude) {
             if (regionComponent && cityComponent) {
                 const region = regionComponent.long_name;
                 const city = cityComponent.long_name;
-                console.log('Region:', region);
-                console.log('City:', city);
+                logger.d('Region:', region);
+                logger.d('City:', city);
                 return [ convertToEnglishChars(city), convertToEnglishChars(region) ];
             } else {
-                console.log('Region or city component not found.');
+                logger.e('Region or city component not found.');
                 return null;
             }
         } else {
-            console.log('No results found.');
+            logger.d('No results found.');
             return null;
         }
     } catch (error) {
-        console.error('Error:', error.message);
+        logger.e('Error:', error.message);
         return null;
     }
 }
@@ -136,7 +134,9 @@ async function getPharmacies(latitude, longitude){
             const filePath = `${directoryCitiesPath}/${convertToEnglishChars(response[0])}` + 
                 `/${convertToEnglishChars(response[1])}.json`; // Replace with the actual file path
             const filecontent = fs.readFileSync(filePath, 'utf-8');
-            return JSON.parse(filecontent);
+            const parsedData = JSON.parse(filecontent);
+            //logger.d(parsedData);
+            return parsedData;
         }
         return null;
     }catch(error){
