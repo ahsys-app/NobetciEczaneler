@@ -57,6 +57,31 @@ async function handleOnMessage(client, msg) {
             msg.reply('Konuma bağlı nöbetçi eczane kayıtlarımızda bulunmamaktadır, başka konumdan deneyin. 🙏');
         }
     }
+    // else{
+    //     fs.readFile(`${process.env.DIRECTORY_PATH}\words.txt`, 'utf8', (err, data) => {
+    //         if (err) {
+    //             logger.error('Error reading file:', err);
+    //             return;
+    //         }
+    //         const keyValuePairs = {};
+    //         const lines = data.split('\n');
+    //         lines.forEach(line => {
+    //             const [key, value] = line.split(':');
+    //             if (key && value) {
+    //             keyValuePairs[key.trim()] = value.trim();
+    //             }
+    //         });
+    //         const message = msg.body;
+    //         Object.keys(keyValuePairs).forEach(key => {
+    //             if (message.includes(key)) {
+    //             const response = keyValuePairs[key];
+    //             logger.debug('Message contains key:', key);
+    //             logger.debug('Response:', response);
+    //             msg.reply(response);
+    //             }
+    //         });
+    //     });
+    // }
 }
 
 

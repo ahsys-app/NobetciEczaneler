@@ -5,6 +5,7 @@ const cron = require('node-cron');
 const logger = require('./utils/logger');
 const { setupDataDirectory, getDutyPharmacyByCity, } = require('./app/functions');
 const { handleOnMessage, handleOnReady, handleOnQr, handleOnAuthenticated, handleOnAuthfailure, } = require('./app/whatsapp');
+const str = require('./utils/str');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,10 +29,10 @@ const client = new Client({
 });
 
 client.initialize();
-client.on('ready', handleOnReady);
-client.on('qr', handleOnQr);
-client.on('authenticated', handleOnAuthenticated);
-client.on('auth_failure', handleOnAuthfailure);
-client.on('message', async msg => {
+client.on(str.ready, handleOnReady);
+client.on(str.qr, handleOnQr);
+client.on(str.authenticated, handleOnAuthenticated);
+client.on(str.auth_failure, handleOnAuthfailure);
+client.on(str.message, async msg => {
     await handleOnMessage(client, msg);
 });
