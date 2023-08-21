@@ -40,4 +40,11 @@ node . | nodemon
 ![Nöbetçi Eczaneler](./assets/images/run-2.png)
 ![Nöbetçi Eczaneler](./assets/images/run-3.png)
 
-
+### To-Do Tasks
+* Incoming enhancements  :
+    * <del>Disable/Enable BOTs</del>
+    * <del>Dealing with Google map links. </del>
+    * Welcome message for first-time usage.
+    * User search limitation.
+    * All cities of Türkiye.
+    * Frontend interface for management.
