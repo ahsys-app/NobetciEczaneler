@@ -46,6 +46,7 @@ async function handleOnMessageTelegram(client, msg) {
         await client.sendMessage(chatId, 'Nöbetçi Eczaneler 🏥');
         for (const pharmacy of pharmacies) {
             const [latitude, longitude] = pharmacy.loc.split(',').map(parseFloat);
+            await client.sendMessage(chatId, `${pharmacy.name}, ${pharmacy.address}`);
             await client.sendLocation(chatId, latitude, longitude);
             await sleep(500);
         }
