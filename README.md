@@ -1,11 +1,11 @@
 <div align="center">
-    <img src="./assets/images/logo.png" alt="Nöbetçi Eczaneleri" />
+    <img src="./assets/images/logo.png" alt="Nöbetçi Eczaneler" />
 </div>
 <h3 align="center">
-WhatsApp/Telegram BOT sending Nearby Locations for Nöbetçi Eczaneleri
+WhatsApp/Telegram BOT sending Nearby Locations for Nöbetçi Eczaneler
 </h3>
 
-WhatsApp/Telegram BOT, İstanbul Nöbetçi Eczaneleri için Yakın Konumlar gönderiyor
+WhatsApp/Telegram BOT, İstanbul Nöbetçi Eczaneler için Yakın Konumlar gönderiyor
 
 Now works for only İstanbul, All turkey cities will come soon in the next update.
 
@@ -26,18 +26,18 @@ npm i
 ```
 node . | nodemon
 ```
-- After that scan QR code `using your whatsapp` from console area, then BOT will start work on your account and reply to any location available with nearby Nöbetçi Eczaneleri.
+- After that scan QR code `using your whatsapp` from console area, then BOT will start work on your account and reply to any location available with nearby Nöbetçi Eczaneler.
 
 ### Screenshots
 
 - QR code for scan step after run command `nodemon`
 
-![Nöbetçi Eczaneleri](./assets/images/run.png)
+![Nöbetçi Eczaneler](./assets/images/run.png)
 
 - [1] Location sent to WhatsApp number / Telegram BOT.
-- [2] All `Nöbetçi Eczaneleri` founds nearby your area.
+- [2] All `Nöbetçi Eczaneler` founds nearby your area.
 
-![Nöbetçi Eczaneleri](./assets/images/run-2.png)
-![Nöbetçi Eczaneleri](./assets/images/run-3.png)
+![Nöbetçi Eczaneler](./assets/images/run-2.png)
+![Nöbetçi Eczaneler](./assets/images/run-3.png)
 
 

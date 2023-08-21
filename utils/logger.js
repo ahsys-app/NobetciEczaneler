@@ -9,7 +9,7 @@ if (process.env.LEVEL === 'debug') {
 } else {
     log4js.configure({
         appenders: { cheese: { type: 'file', filename: 'cheese.log' } },
-        categories: { default: { appenders: ['cheese'], level: 'error' } },
+        categories: { default: { appenders: ['cheese'], level: 'all' } },
     });
 }
 
