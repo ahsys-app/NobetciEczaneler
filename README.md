@@ -1,5 +1,10 @@
-![Nöbetçi Eczaneleri](./assets/images/logo.png)
-# WhatsApp/Telegram BOT sending Nearby Locations for İstanbul Nöbetçi Eczaneleri
+<div align="center">
+    <img src="./assets/images/logo.png" alt="Nöbetçi Eczaneleri" />
+</div>
+<h3 align="center">
+WhatsApp/Telegram BOT sending Nearby Locations for Nöbetçi Eczaneleri
+</h3>
+
 ### WhatsApp/Telegram BOT, İstanbul Nöbetçi Eczaneleri için Yakın Konumlar gönderiyor
 
 Now works for only İstanbul, All turkey cities will come soon in the next update.
