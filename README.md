@@ -5,7 +5,7 @@
 WhatsApp/Telegram BOT sending Nearby Locations for Nöbetçi Eczaneleri
 </h3>
 
-### WhatsApp/Telegram BOT, İstanbul Nöbetçi Eczaneleri için Yakın Konumlar gönderiyor
+WhatsApp/Telegram BOT, İstanbul Nöbetçi Eczaneleri için Yakın Konumlar gönderiyor
 
 Now works for only İstanbul, All turkey cities will come soon in the next update.
 

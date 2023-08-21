@@ -27,7 +27,7 @@ cron.schedule('10 0 * * *', async () => {
 // Whatsapp Client
 const whatsAppClient = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: { headless: true }
+    puppeteer: { headless: true, ignoreDefaultArgs: ['--disable-extensions'] }
 });
 
 whatsAppClient.initialize();
