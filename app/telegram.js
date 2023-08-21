@@ -13,7 +13,6 @@ async function handleOnMessageTelegram(client, msg) {
     let coordinates, latitude, longitude;
 
     if (msg.location) {
-        msg.react('👍');
         coordinates = msg.location;
         logger.i('Received location message');
     }else{
@@ -22,6 +21,10 @@ async function handleOnMessageTelegram(client, msg) {
         }
         logger.i('Received text message');
         coordinates = await extractCoordinatesFromGoogleMapsLink(text);
+    }
+
+    if( coordinates == null ){
+        msg.reply('Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
     }
 
     latitude = coordinates?.latitude ?? null;

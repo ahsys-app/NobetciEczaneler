@@ -41,11 +41,14 @@ async function handleOnMessage(client, msg) {
         coordinates = await extractCoordinatesFromGoogleMapsLink(msg.body);
     }
 
+    if( coordinates == null ){
+        msg.reply('Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
+    }
+
     latitude = coordinates?.latitude ?? null;
     longitude = coordinates?.longitude ?? null;
 
-    
-    if( latitude == null && longitude == null ){
+    if(   latitude == null && longitude == null ){
         msg.reply('Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
         return;
     }
