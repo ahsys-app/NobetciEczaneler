@@ -24,24 +24,26 @@ cron.schedule('10 0 * * *', async () => {
     await getDutyPharmacyByCity(process.env.CITY_NAME);
 });
 
-// Whatsapp Client
-const whatsAppClient = new Client({
-    authStrategy: new LocalAuth(),
-    puppeteer: { headless: true, args: ['--disable-extensions', "--no-sandbox"] }
-});
-
-whatsAppClient.initialize();
-whatsAppClient.on(str.ready, handleOnReady);
-whatsAppClient.on(str.qr, handleOnQr);
-whatsAppClient.on(str.authenticated, handleOnAuthenticated);
-whatsAppClient.on(str.auth_failure, handleOnAuthfailure);
-whatsAppClient.on(str.message, async msg => {
-    await handleOnMessage(whatsAppClient, msg);
-});
+// Whatsapp Bot
+if( process.env.WHATSAPP_ENABLED === 'true' ) {
+    const whatsAppClient = new Client({
+        authStrategy: new LocalAuth(),
+        puppeteer: { headless: true, args: ['--disable-extensions', "--no-sandbox"] }
+    });
+    whatsAppClient.initialize();
+    whatsAppClient.on(str.ready, handleOnReady);
+    whatsAppClient.on(str.qr, handleOnQr);
+    whatsAppClient.on(str.authenticated, handleOnAuthenticated);
+    whatsAppClient.on(str.auth_failure, handleOnAuthfailure);
+    whatsAppClient.on(str.message, async msg => {
+        await handleOnMessage(whatsAppClient, msg);
+    });
+}
 
 //Telegram Bot
-const telegramClient = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: true});
-
-telegramClient.on(str.location, async (msg) => {
-    await handleOnMessageTelegram(telegramClient, msg);
-});
+if( process.env.TELEGRAM_ENA_ENABLED === 'true' ){
+    const telegramClient = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: true});
+    telegramClient.on(str.location, async (msg) => {
+        await handleOnMessageTelegram(telegramClient, msg);
+    });
+}

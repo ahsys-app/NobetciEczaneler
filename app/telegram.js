@@ -5,7 +5,7 @@ async function handleOnMessageTelegram(client, msg) {
 
     const chatId = msg.chat.id;
 
-    logger.w('TelegtamBot start reply to', msg.from);
+    logger.w('TelegtamBot start reply to', msg.from.id, msg.from.first_name, msg.from.last_name);
 
     if (msg.location) {
         const { latitude, longitude } = msg.location;
