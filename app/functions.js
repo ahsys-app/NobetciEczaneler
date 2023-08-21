@@ -2,6 +2,7 @@ const axios = require('axios');
 const escapeTurkish = require("escape-turkish");
 const fs = require('fs');
 const logger = require('../utils/logger');
+const puppeteer = require('puppeteer');
 
 const directoryCitiesPath = `${process.env.DIRECTORY_PATH}${process.env.CITIES_PATH}`;
 
@@ -149,6 +150,54 @@ function convertToEnglishChars(input) {
     return escapeTurkish(input).trim().toLowerCase();
 }
 
+async function extractCoordinatesFromGoogleMapsLink(link) {
+    try{
+        let isSharedLink = false;
+        if (link.startsWith("https://goo.gl")) {
+            logger.w('startsWith https://goo.gl');
+            isSharedLink = true;
+            link = await openSharedGoogleMapLink(link);
+        }
+        const url = new URL(link);
+        const params = new URLSearchParams(url.search);
+        let latitude, longitude;
+        if( isSharedLink ){
+            const match = url.href.match(/@([-?\d.]+),([-?\d.]+)/);
+            if (match && match.length >= 3) {
+                latitude = parseFloat(match[1]);
+                longitude = parseFloat(match[2]);
+            }
+        } else if (params.has("q")) {
+            const coordinates = params.get("q").split(",");
+            latitude = parseFloat(coordinates[0]);
+            longitude = parseFloat(coordinates[1]);
+        } else if (params.has("ll")) {
+            // Format: "latitude,longitude"
+            const coordinates = params.get("ll").split(",");
+            latitude = parseFloat(coordinates[0]);
+            longitude = parseFloat(coordinates[1]);
+        } else {
+            const pathnameParts = url.pathname.split('/');
+            const coordinatesPart = pathnameParts[pathnameParts.length - 1];
+            [latitude, longitude] = coordinatesPart.split(',');
+        }
+        //logger.d('latitude: ' + latitude, 'longitude: ' + longitude);
+        return { latitude, longitude };
+    }catch(error){
+        return null;
+    }
+}
+
+async function openSharedGoogleMapLink(link) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(link);
+    await page.waitForSelector('.widget-scene-canvas');
+    const url = await page.url();
+    await browser.close();
+    return url;
+}
+
 module.exports = {
     setupDataDirectory,
     sleep,
@@ -157,4 +206,6 @@ module.exports = {
     getDutyPharmacy,
     getDutyPharmacyByCity,
     getPharmacies,
+    extractCoordinatesFromGoogleMapsLink,
+    openSharedGoogleMapLink,
 };

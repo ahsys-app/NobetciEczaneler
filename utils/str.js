@@ -5,4 +5,5 @@ module.exports = {
     auth_failure: 'auth_failure',
     message: 'message',
     location: 'location',
+    text: 'text',
 }

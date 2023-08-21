@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const cron = require('node-cron');
 const logger = require('./utils/logger');
-const { setupDataDirectory, getDutyPharmacyByCity, } = require('./app/functions');
+const { setupDataDirectory, getDutyPharmacyByCity, extractCoordinatesFromGoogleMapsLink, openSharedGoogleMapLink, } = require('./app/functions');
 const { handleOnMessage, handleOnReady, handleOnQr, handleOnAuthenticated, handleOnAuthfailure, } = require('./app/whatsapp');
 const str = require('./utils/str');
 const TelegramBot = require('node-telegram-bot-api');
@@ -26,6 +26,7 @@ cron.schedule('10 0 * * *', async () => {
 
 // Whatsapp Bot
 if( process.env.WHATSAPP_ENABLED === 'true' ) {
+    logger.w(`Starting WhatsApp BOT Enabled`);
     const whatsAppClient = new Client({
         authStrategy: new LocalAuth(),
         puppeteer: { headless: true, args: ['--disable-extensions', "--no-sandbox"] }
@@ -42,8 +43,12 @@ if( process.env.WHATSAPP_ENABLED === 'true' ) {
 
 //Telegram Bot
 if( process.env.TELEGRAM_ENABLED === 'true' ){
+    logger.w(`Starting Telegram BOT Enabled`);
     const telegramClient = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: true});
     telegramClient.on(str.location, async (msg) => {
+        await handleOnMessageTelegram(telegramClient, msg);
+    });
+    telegramClient.on(str.text, async (msg) => {
         await handleOnMessageTelegram(telegramClient, msg);
     });
 }

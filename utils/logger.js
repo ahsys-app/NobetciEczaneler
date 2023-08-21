@@ -1,15 +1,15 @@
 const log4js = require('log4js');
 
 // Configure log4js based on the environment level
-if (process.env.LEVEL === 'debug') {
+if (process.env.APP_ENV === 'debug') {
     log4js.configure({
         appenders: { console: { type: 'console' } },
-        categories: { default: { appenders: ['console'], level: 'debug' } }
+        categories: { default: { appenders: ['console'], level: process.env.DEBUG_LEVEL } }
     });
 } else {
     log4js.configure({
         appenders: { cheese: { type: 'file', filename: 'cheese.log' } },
-        categories: { default: { appenders: ['cheese'], level: 'all' } },
+        categories: { default: { appenders: ['cheese'], level: process.env.DEBUG_LEVEL } },
     });
 }
 
