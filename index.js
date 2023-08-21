@@ -41,7 +41,7 @@ if( process.env.WHATSAPP_ENABLED === 'true' ) {
 }
 
 //Telegram Bot
-if( process.env.TELEGRAM_ENA_ENABLED === 'true' ){
+if( process.env.TELEGRAM_ENABLED === 'true' ){
     const telegramClient = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, {polling: true});
     telegramClient.on(str.location, async (msg) => {
         await handleOnMessageTelegram(telegramClient, msg);
