@@ -24,7 +24,7 @@ async function handleOnMessageTelegram(client, msg) {
     }
 
     if( coordinates == null ){
-        msg.reply('Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
+        client.sendMessage(chatId, 'Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
     }
 
     latitude = coordinates?.latitude ?? null;
