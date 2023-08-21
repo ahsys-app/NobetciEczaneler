@@ -153,8 +153,8 @@ function convertToEnglishChars(input) {
 async function extractCoordinatesFromGoogleMapsLink(link) {
     try{
         let isSharedLink = false;
-        if (link.startsWith("https://goo.gl")) {
-            logger.w('startsWith https://goo.gl');
+        if (link.startsWith("https://goo.gl/maps")) {
+            logger.w('startsWith https://goo.gl/maps');
             isSharedLink = true;
             link = await openSharedGoogleMapLink(link);
         }
@@ -162,6 +162,7 @@ async function extractCoordinatesFromGoogleMapsLink(link) {
         const params = new URLSearchParams(url.search);
         let latitude, longitude;
         if( isSharedLink ){
+            logger.w('inside isSharedLink');
             const match = url.href.match(/@([-?\d.]+),([-?\d.]+)/);
             if (match && match.length >= 3) {
                 latitude = parseFloat(match[1]);
@@ -181,7 +182,7 @@ async function extractCoordinatesFromGoogleMapsLink(link) {
             const coordinatesPart = pathnameParts[pathnameParts.length - 1];
             [latitude, longitude] = coordinatesPart.split(',');
         }
-        //logger.d('latitude: ' + latitude, 'longitude: ' + longitude);
+        logger.d('latitude: ' + latitude, 'longitude: ' + longitude);
         return { latitude, longitude };
     }catch(error){
         return null;
@@ -189,13 +190,18 @@ async function extractCoordinatesFromGoogleMapsLink(link) {
 }
 
 async function openSharedGoogleMapLink(link) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(link);
-    await page.waitForSelector('.widget-scene-canvas');
-    const url = await page.url();
-    await browser.close();
-    return url;
+    try{
+        const browser = await puppeteer.launch({ headless: true, args: ['--disable-extensions', "--no-sandbox"] });
+        const page = await browser.newPage();
+        await page.goto(link);
+        await page.waitForSelector('.widget-scene-canvas');
+        const url = await page.url();
+        await browser.close();
+        return url;
+    }catch(error){
+        logger.e(error);
+        return null;
+    }
 }
 
 module.exports = {

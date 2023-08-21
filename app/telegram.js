@@ -8,8 +8,6 @@ async function handleOnMessageTelegram(client, msg) {
 
     logger.w('TelegtamBot start reply to', msg.from.id, msg.from.first_name, msg.from.last_name);
 
-    logger.d(text);
-
     let coordinates, latitude, longitude;
 
     if (msg.location) {
@@ -25,6 +23,7 @@ async function handleOnMessageTelegram(client, msg) {
 
     if( coordinates == null ){
         client.sendMessage(chatId, 'Lütfen bir harita linki veya konumunuzu kullanın. 🙏');
+        return;
     }
 
     latitude = coordinates?.latitude ?? null;
