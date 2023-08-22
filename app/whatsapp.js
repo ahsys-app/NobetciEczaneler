@@ -34,8 +34,12 @@ async function handleOnMessage(client, msg) {
         coordinates = msg.location;
         logger.i('Received location message');
     }else{
-        if (msg.body.startsWith("https://goo.gl/maps")) {
-            msg.reply('Bu tür bağlantılarda biraz zaman alır ⏳');
+        if (
+            msg.body.startsWith("https://goo.gl/maps") 
+            || msg.body.startsWith("https://maps.app.goo.gl")
+            || msg.body.startsWith("https://www.google.com/maps/place/")
+        ) {
+            msg.reply('Gönderilen bağlantı işleniyor ... ⏳');
         }
         logger.i('Received text message');
         coordinates = await extractCoordinatesFromGoogleMapsLink(msg.body);

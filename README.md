@@ -44,6 +44,7 @@ node . | nodemon
 * Incoming enhancements  :
     * <del>Disable/Enable BOTs</del>
     * <del>Dealing with Google map links. </del>
+    * <del>Cron jobs update time from env file. </del>
     * Welcome message for first-time usage.
     * User search limitation.
     * All cities of Türkiye.

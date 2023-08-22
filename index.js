@@ -3,7 +3,7 @@ require('dotenv').config();
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const cron = require('node-cron');
 const logger = require('./utils/logger');
-const { setupDataDirectory, getDutyPharmacyByCity, extractCoordinatesFromGoogleMapsLink, openSharedGoogleMapLink, } = require('./app/functions');
+const { setupDataDirectory, getDutyPharmacyByCity, openSharedGoogleMapLink, } = require('./app/functions');
 const { handleOnMessage, handleOnReady, handleOnQr, handleOnAuthenticated, handleOnAuthfailure, } = require('./app/whatsapp');
 const str = require('./utils/str');
 const TelegramBot = require('node-telegram-bot-api');
