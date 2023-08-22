@@ -153,17 +153,23 @@ function convertToEnglishChars(input) {
 async function extractCoordinatesFromGoogleMapsLink(link) {
     try{
         let isSharedLink = false;
-        if (link.startsWith("https://goo.gl/maps")) {
-            logger.w('startsWith https://goo.gl/maps');
+        if (link.startsWith("https://goo.gl/maps") 
+            || link.startsWith("https://maps.app.goo.gl")
+            || link.startsWith("https://www.google.com/maps/place/")
+        ) {
+            logger.w('Google map shared link received');
             isSharedLink = true;
             link = await openSharedGoogleMapLink(link);
         }
+        logger.w(link);
         const url = new URL(link);
         const params = new URLSearchParams(url.search);
         let latitude, longitude;
         if( isSharedLink ){
             logger.w('inside isSharedLink');
-            const match = url.href.match(/@([-?\d.]+),([-?\d.]+)/);
+            const regex = /@([-?\d.]+),([-?\d.]+)/;
+            const match = url.href.match(regex);
+            logger.d(match);
             if (match && match.length >= 3) {
                 latitude = parseFloat(match[1]);
                 longitude = parseFloat(match[2]);
@@ -189,13 +195,15 @@ async function extractCoordinatesFromGoogleMapsLink(link) {
     }
 }
 
-async function openSharedGoogleMapLink(link) {
+async function openSharedGoogleMapLink(link, sleepTime = 3000) {
     try{
         const browser = await puppeteer.launch({ headless: true, args: ['--disable-extensions', "--no-sandbox"] });
         const page = await browser.newPage();
         await page.goto(link);
         await page.waitForSelector('.widget-scene-canvas');
-        const url = await page.url();
+        //Some Google Map want more time to wait for getting coordinates at url
+        await sleep(sleepTime);
+        const url = page.url();
         await browser.close();
         return url;
     }catch(error){

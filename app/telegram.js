@@ -14,8 +14,12 @@ async function handleOnMessageTelegram(client, msg) {
         coordinates = msg.location;
         logger.i('Received location message');
     }else{
-        if (text.startsWith("https://goo.gl/maps")) {
-            client.sendMessage(chatId, 'Bu tür bağlantılarda biraz zaman alır ⏳');
+        if (
+            text.startsWith("https://goo.gl/maps") 
+            || text.startsWith("https://maps.app.goo.gl")
+            || text.startsWith("https://www.google.com/maps/place/")
+        ) {
+            client.sendMessage(chatId, 'Gönderilen bağlantı işleniyor ... ⏳');
         }
         logger.i('Received text message');
         coordinates = await extractCoordinatesFromGoogleMapsLink(text);
